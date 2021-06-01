@@ -5,7 +5,7 @@ import recommendation
 app = Flask(__name__)
 CORS(app) 
         
-@app.route('/dest', methods=['GET'])
+@app.route('/cat', methods=['GET'])
 def recommend_destinations():
         res = recommendation.combine_results(request.args.get('title'))
         return jsonify(res)
