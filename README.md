@@ -1,1 +1,1 @@
-# tourism-rec
+# tour-rec
