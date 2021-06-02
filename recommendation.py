@@ -4,6 +4,8 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from random import shuffle
 
+
+
 def get_data():
     tourd=pd.read_excel("dataset/data-ver-2.xlsx",index_col=0)
     tourd['category']=tourd['category'].fillna('')
@@ -50,33 +52,37 @@ def recommend_destinations(title, data, transform):
 
     return recommendation_data
 
-def results(destination):
+def results(category):
     data = get_data()
-
-    df = {'name':'curr_user','category':category_dictionary[category],'popularity':'','ratingClass':'','state':''	}
+    cd={'Temples': 'temple,hindu,mandir,shiva,gurudwara,sikh,jain,dham,mahadev,gurdwara', 'Religious': 'temple,mosque,mandir,shrine,church,monastery,pilgrimage,lord,worship,catholic,gurudwara', 'Buddhism': 'shrine,monastery,buddha,buddhism', 'Mughal': 'mosque,mughal,tomb,masjid,muslim,mausoleum,dome,domed,jama', 'Parks and Garden': 'park,garden,fountain,playground,aquarium', 'Entertainment': 'lake,scenic,dam,hill,cave,bird,hilltop,zoo,amusement,shopping,dining,dating', 'Museums and Art Galleries': 'museum,gallery,art,antique', 'Monuments': 'monument,memorial,stupa,heritage', 'Heritage': 'iconic,unique,heritage', 'Beaches and Island': 'beach,island,sea,ocean,sandy', 'History and Architecture': 'history,architecture,ancient,historic,historical,artifact', 'Nature': 'waterfall,scenic,water,mountain,river,nature,fall,valley,cave', 'Forts and Palaces': 'fort,palace,fortress,mahal,royal,qila,raj', 'Wildlife Sactuaries': 'wildlife,sanctuary,national,forest,tiger,animal,forested,wild', 'Sports': 'sport,swimming,boating,hiking,trek,trekking'}
+    df = {'name':'curr_user','category':cd[category],'popularity':'','ratingClass':'','state':''	}
     data=data.append(df,ignore_index=True)
         
     transform_result = transform_data(data)
 
-    recommendations = recommend_destinations("curr_user", data, transform_result)
-    return recommendations.to_dict('records')
+    if category not in cd.keys():
+        return None
+
+    else:
+        recommendations = recommend_destinations("curr_user", data, transform_result)
+        return recommendations.to_dict('records')
 
 def combine_results(cat_list):
   cat_list=list(cat_list.split(","))
   noe=20//len(cat_list)
-  finalrec=[]
+  finalrec=list()
   for i in cat_list:
     rec=results(i)
-    if len(cat_list)>1:
-      rec=rec[0:10]
-    shuffle(rec)
-    j,k=0,0
-    while j<noe:
-      if rec[k] not in finalrec: 
-        finalrec.append(rec[k])
-        k+=1
-        j+=1
-      else:
-        k+=1
+    if rec != None:
+      if len(cat_list)>1:
+        rec=rec[0:10]
+      shuffle(rec)
+      j,k=0,0
+      while j<noe and k<noe:
+        if rec[k] not in finalrec: 
+          finalrec.append(rec[k])
+          k+=1
+          j+=1
+        else:
+          k+=1
   return finalrec
-
