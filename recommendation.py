@@ -89,4 +89,4 @@ def combine_results(cat_list):
           j+=1
         else:
           k+=1
-   return finalrec
+  return finalrec
