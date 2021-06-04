@@ -89,4 +89,5 @@ def combine_results(cat_list):
           j+=1
         else:
           k+=1
+  shuffle(finalrec)
   return finalrec
