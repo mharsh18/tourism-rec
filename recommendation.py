@@ -7,7 +7,7 @@ from random import shuffle
 
 
 def get_data():
-    tourd=pd.read_excel("dataset/data-ver-3.xlsx",index_col=0)
+    tourd=pd.read_excel("dataset/data-ver-4.xlsx",index_col=0)
     tourd[['category','big_description']]=tourd[['category','big_description']].fillna('')
     tourd['image'] = tourd['image'].fillna('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png')
 
@@ -46,13 +46,15 @@ def recommend_destinations(title, data, transform):
     dest_name = data['name'].iloc[dest_indices]
     dest_desc = data['big_description'].iloc[dest_indices]
     image = data['image'].iloc[dest_indices]
+    imageSet = data['imageSet'].iloc[dest_indices]
 
-    recommendation_data = pd.DataFrame(columns=['name','location', 'details','img'])
+    recommendation_data = pd.DataFrame(columns=['name','location', 'details','img','imgSet'])
 
     recommendation_data['location'] = dest_state
     recommendation_data['name'] = dest_name
     recommendation_data['details'] = dest_desc
     recommendation_data['img'] = image
+    recommendation_data['imgSet'] = imageSet
 
     return recommendation_data
 
@@ -90,4 +92,6 @@ def combine_results(cat_list):
         else:
           k+=1
   shuffle(finalrec)
+  for i in range(len(finalrec)):
+    finalrec[i]['imgSet'] = list((finalrec[i]['imgSet']).split(","))
   return finalrec
