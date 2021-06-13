@@ -10,7 +10,8 @@ CORS(app)
 def recommend_categories():
         res = recommendation.combine_results(request.args.get('title'))
         return jsonify(res)
-@app.route('/dest',methods=['GET'])
+
+@app.route('/dest', methods=['GET'])
 def recommend_destinations():
         res = rec2.results(request.args.get('title'))
         return jsonify(res)
