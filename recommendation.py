@@ -7,7 +7,7 @@ from random import shuffle
 
 
 def get_data():
-    tourd=pd.read_excel("dataset/data-ver-5.xlsx",index_col=0)
+    tourd=pd.read_excel("dataset/data-ver-6.xlsx",index_col=0)
     tourd[['category','big_description']]=tourd[['category','big_description']].fillna('')
     tourd['image'] = tourd['image'].fillna('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png')
     tourd['imageSet'] = tourd['imageSet'].fillna('https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1200px-No-Image-Placeholder.svg.png')
